@@ -9,17 +9,30 @@ import Foundation
 @MainActor
 class CategoryListViewModel: ObservableObject {
   
-  @Published var recipes: [MealObj] = []
-  
-  func populateCategories() async {
-    do {
-      let categoryResponse = try await APICaller().getRecipes()
-      recipes = categoryResponse.meals.sorted{ $0.strMeal < $1.strMeal } //Data come in sorted, but sorting just in case
-    } catch let error {
-      print(error)
+    @Published var recipes: [MealObj] = []
+    
+    func populateCategories() async {
+        do {
+            let categoryResponse = try await fetchRecipes()
+            updateRecipes(with: categoryResponse)
+        } catch {
+            handle(error: error)
+        }
     }
-  }
+    
+    private func fetchRecipes() async throws -> CategoryResponse {
+        return try await APICaller().getRecipes()
+    }
+    
+    private func updateRecipes(with response: CategoryResponse) {
+        recipes = response.meals.sorted { $0.strMeal < $1.strMeal }
+    }
+    
+    private func handle(error: Error) {
+        print(error)
+    }
 }
+
 
 
 

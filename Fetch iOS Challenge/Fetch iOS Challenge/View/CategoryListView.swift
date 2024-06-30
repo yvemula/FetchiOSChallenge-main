@@ -8,20 +8,22 @@
 import SwiftUI
 
 struct CategoryListView: View {
-  let meals: [MealObj]
-  
-  var body: some View {
-    List(meals) {meal in
-      NavigationLink(destination: DetailView(id: meal.id)){
-        MealCellView(meal: meal)
-      }
-      
+    let mealList: [MealObj]
+    
+    var body: some View {
+        List(mealList) { mealItem in
+            NavigationLink(destination: DetailView(id: mealItem.id)) {
+                MealCellView(meal: mealItem)
+            }
+        }
+        .listStyle(PlainListStyle())
     }
-  }
 }
 
 struct CategoryListView_Previews: PreviewProvider {
-  static var previews: some View {
-    CategoryListView(meals: MockData.mealsList)
-  }
+    static var previews: some View {
+        CategoryListView(mealList: MockData.mealsList)
+    }
 }
+
+

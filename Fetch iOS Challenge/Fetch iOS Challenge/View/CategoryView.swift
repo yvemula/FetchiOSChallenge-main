@@ -7,22 +7,22 @@
 import SwiftUI
 
 struct CategoryView: View {
-  @StateObject var viewModel:CategoryListViewModel
-  
+    @StateObject var categoryViewModel: CategoryListViewModel
+    
     var body: some View {
-      NavigationView{
-        CategoryListView(meals: viewModel.recipes)
-          .task {
-            await viewModel.populateCategories()
-          }
-          .navigationTitle("Dessert")
-      }
+        NavigationView {
+            CategoryListView(meals: categoryViewModel.recipes)
+                .task {
+                    await categoryViewModel.populateCategories()
+                }
+                .navigationTitle("Dessert")
+        }
     }
 }
 
 struct CategoryView_Previews: PreviewProvider {
     static var previews: some View {
-      CategoryView(viewModel: CategoryListViewModel())
+        CategoryView(categoryViewModel: CategoryListViewModel())
     }
 }
 
